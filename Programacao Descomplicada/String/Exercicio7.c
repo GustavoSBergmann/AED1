@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void main()
+int main()
 {
     char str1[100], str2[100];
 
@@ -21,4 +21,6 @@ void main()
     }
 
     printf("Strings IGUAIS");
+
+    return 0;
 }
