@@ -28,7 +28,7 @@ bool lemonadeChange(int *bills, int billsSize)
     return true;
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
     int bills[5] = {5, 5, 5, 10, 20};
     int billsSize = 5;
