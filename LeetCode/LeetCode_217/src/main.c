@@ -22,7 +22,7 @@ bool containsDuplicate(int *nums, int numsSize)
 
 int main()
 {
-    int nums[4] = {1, 2, 3, 4};
+    int nums[4] = {1, 2, 3, 1};
     int numsSize = 4;
     bool containsDup;
 

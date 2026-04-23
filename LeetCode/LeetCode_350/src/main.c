@@ -28,14 +28,14 @@ int *intersect(int *nums1, int nums1Size, int *nums2, int nums2Size, int *return
 
     int maxSizeResult = (nums1Size < nums2Size) ? nums1Size : nums2Size;
     int *result = (int *)malloc(maxSizeResult * sizeof(int));
-    int i = 0, j = 0;
+    int i = 0, j = 0, k = 0;
 
     while (i < nums1Size && j < nums2Size)
     {
         if (nums1[i] == nums2[j])
         {
-            result[*returnSize] = nums1[i];
-            (*returnSize)++;
+            result[k] = nums1[i];
+            k++;
             i++;
             j++;
         }
@@ -48,7 +48,7 @@ int *intersect(int *nums1, int nums1Size, int *nums2, int nums2Size, int *return
             j++;
         }
     }
-
+    (*returnSize) = k;
     return result;
 }
 

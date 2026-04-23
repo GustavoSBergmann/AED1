@@ -3,10 +3,9 @@
 int maxProfit(int *prices, int pricesSize)
 {
     int min = prices[0], max = 0;
-
     for (int i = 1; i < pricesSize; i++)
     {
-        if (min > prices[i])
+        if (prices[i] < min)
         {
             min = prices[i];
         }
@@ -22,10 +21,10 @@ int maxProfit(int *prices, int pricesSize)
     return max;
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
-    int prices[3] = {2, 4, 1};
-    int pricesSize = 3, maxGain;
+    int prices[6] = {7, 1, 5, 3, 6, 4};
+    int pricesSize = 6, maxGain;
 
     maxGain = maxProfit(prices, pricesSize);
 
