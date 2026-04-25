@@ -76,7 +76,7 @@ int *findDiagonalOrder(int **mat, int matSize, int *matColSize, int *returnSize)
 ```
 
 ### Submit no LeetCode
-![Teste do código de aula no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho Pratico 1/Submit LeetCode.png)
+![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Submit%20LeetCode.png)
 
 Não funcionaram muitos casos no código feito em aula, pois ficou incompleto, visto que eu não estava conseguindo chegar em uma solução que resolvesse todos os casos.
 
