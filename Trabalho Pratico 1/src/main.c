@@ -90,5 +90,7 @@ int main()
     }
     printf(" ]\n");
 
+    free(order);
+
     return 0;
 }

@@ -1,8 +1,13 @@
 # LeetCode 498 - Diagonal Traverse
 ## Gustavo Schmitz Bergmann
 
+> [!NOTE]
+> A única alteração no código feito em aula foram os comentários para melhor compreensão do mesmo, e no main, o qual não interfere no que foi testado no LeetCode.
+
 ### Descrição do Problema:
 Dada uma matriz `m x n` `(mat)`, retorne um vetor contendo todos os elementos da matriz em ordem diagonal.
+
+![Demonstração de como a matriz deve ser percorrida](https://github.com/GustavoSBergmann/AED1/tree/master/Trabalho%20Pratico%201/Matriz.png)
 
 ### Código feito em aula:
 ```
@@ -75,73 +80,12 @@ int *findDiagonalOrder(int **mat, int matSize, int *matColSize, int *returnSize)
 }
 ```
 
-### Submit no LeetCode
+### Submit no LeetCode:
 ![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Submit%20LeetCode.png)
 
-Não funcionaram muitos casos no código feito em aula, pois ficou incompleto, visto que eu não estava conseguindo chegar em uma solução que resolvesse todos os casos.
+### Explicação:
+De início tive dificuldades para entender como percorrer a matriz diagonalmente. Depois de algum tempo tentando achar um padrão e testando algumas formas de percorrer, cheguei a conclusão que o padrão para subidas diagonais era `i--` e `j++`, enquanto o padrão para descidas diagonais era `i++` e `j--`.
 
-Consegui desenvolver a solução para o troco de `$10`, onde eu percorria o vetor para trás para achar um `$5`, se achasse, substituia-o por `0`, senão retornava `false`. 
+A partir deste ponto demorei muito até conseguir encontrar uma forma de tratar os casos em que `i` e `j` passavam dos limites da matriz. Após muitos desenhos mentais de matrizes e movimentações de índices, consegui chegar aos condicionais que tratam esses casos, que ficam entre `while (i >= 0 && j < n)` e `while (i < m && j >= 0)`, e também após este último.
 
-Quanto ao caso do troco de `$20`, não consegui desenvolver em razão da possibilidade de se usar `$10 + $5` ou `$5 + $5 + $5` para o troco. Logo, o código não tem solução para este caso.
-
-### Código feito em casa:
-```
-bool lemonadeChange(int *bills, int billsSize)
-{
-    int five = 0, ten = 0;
-    for (int cliente = 0; cliente < billsSize; cliente++)
-    {
-        if (bills[cliente] == 5)
-        {
-            five++;
-        }
-        if (bills[cliente] == 10)
-        {
-            if (five > 0)
-            {
-                ten++;
-                five--;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        if (bills[cliente] == 20)
-        {
-            if (five > 0 && ten > 0)
-            {
-                ten--;
-                five--;
-            }
-            else if (five > 2)
-            {
-                five -= 3;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-    if (five >= 0 && ten >= 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-```
-![Teste do código de casa no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/LeetCode/LeetCode_860/CodigoCasa.png)
-
-No código feito em casa percebi que não havia necessidade de percorrer o vetor para frente e depois comparar o valor atual com os anteriores. Apenas precisava armazenar a quantidade de `$5`'s e `$10`'s, já que `$20` não é usado para troco. Então organizei da seguinte maneira:
-
-- Para cada `$5` a variável `five` é incrementada;
-
-- Para cada `$10` a variável `ten` é incrementada e `five` é decrementada se houver alguma nota de `$5` em `bill`. Senão a função retorna `false`;
-
-- Para cada `$20` as variáveis `five` e `ten` são decrementadas se existirem notas de `$10` e `$5` em `bill`, senão `five` é decrementada três vezes se houver três `$5` em `bill`. Senão a função retorna `false`.
-
-Portanto, o código feito em aula funciona completamente para todos os casos.
+Todos os casos funcionaram para
