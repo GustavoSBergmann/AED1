@@ -1,6 +1,9 @@
 # LeetCode 498 - Diagonal Traverse
 ## Gustavo Schmitz Bergmann
 
+> [!IMPORTANT]
+> Código feito inteiramente em aula.
+
 > [!NOTE]
 > A única alteração no código feito em aula foram os comentários para melhor compreensão do mesmo, e no main, o qual não interfere no que foi testado no LeetCode.
 
@@ -84,8 +87,8 @@ int *findDiagonalOrder(int **mat, int matSize, int *matColSize, int *returnSize)
 ![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Submit%20LeetCode.png)
 
 ### Explicação:
-De início tive dificuldades para entender como percorrer a matriz diagonalmente. Depois de algum tempo tentando achar um padrão e testando algumas formas de percorrer, cheguei a conclusão que o padrão para subidas diagonais era `i--` e `j++`, enquanto o padrão para descidas diagonais era `i++` e `j--`.
+De início, tive dificuldades para entender como percorrer a matriz diagonalmente. Depois de algum tempo tentando identificar um padrão e testando algumas formas de percurso, cheguei à conclusão de que o padrão para as subidas diagonais era `i--` e `j++`, enquanto o padrão para as descidas diagonais era `i++` e `j--`.
 
-A partir deste ponto demorei muito até conseguir encontrar uma forma de tratar os casos em que `i` e `j` passavam dos limites da matriz. Após muitos desenhos mentais de matrizes e movimentações de índices, consegui chegar aos condicionais que tratam esses casos, que ficam entre `while (i >= 0 && j < n)` e `while (i < m && j >= 0)`, e também após este último.
+A partir desse ponto, demorei bastante até conseguir encontrar uma forma de tratar os casos em que `i` e `j` ultrapassavam os limites da matriz. Após muitos desenhos mentais de matrizes e movimentações de índices, consegui chegar aos condicionais que tratam esses casos, localizados entre `while (i >= 0 && j < n)` e `while (i < m && j >= 0)`, além do trecho posterior a este último.
 
-Todos os casos funcionaram para
+Todos os casos de teste funcionaram para o código.
