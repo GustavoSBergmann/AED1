@@ -7,7 +7,7 @@
 ### Descrição do Problema:
 Dada uma matriz `m x n` `(mat)`, retorne um vetor contendo todos os elementos da matriz em ordem diagonal.
 
-![Demonstração de como a matriz deve ser percorrida](https://github.com/GustavoSBergmann/AED1/tree/master/Trabalho%20Pratico%201/Matriz.png)
+![Demonstração de como a matriz deve ser percorrida](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Matriz.png)
 
 ### Código feito em aula:
 ```
