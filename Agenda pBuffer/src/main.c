@@ -32,37 +32,42 @@
 
 void iniciaBuffer(void **pBufferParametro);
 void menu(void *pBuffer);
-void add(void **pBufferParametro);
+void adicionar(void **pBufferParametro);
+void remover(void **pBufferParametro);
+void buscar(void *pBuffer);
+void listar(void *pBuffer);
+
+// Busca próxima pessoa
+void proximaPessoa(char **pPessoaAtual);
 
 int main()
 {
     void *pBuffer;
     iniciaBuffer(&pBuffer);
-    menu(pBuffer);
 
     while (1)
     {
+        menu(pBuffer);
         switch (*MENU(pBuffer))
         {
         case 1:
-            printf("Adicionar pessoa (Nome, Idade, Email)\n");
-            add(&pBuffer);
+            adicionar(&pBuffer);
             break;
 
         case 2:
-            printf("Remover pessoa\n");
+            remover(&pBuffer);
             break;
 
         case 3:
-            printf("Buscar pessoa\n");
+            buscar(pBuffer);
             break;
 
         case 4:
-            printf("Listar todos\n");
+            listar(pBuffer);
             break;
 
         case 5:
-            printf("Sair\n");
+            printf("----------- Saindo... -----------\n");
             free(pBuffer);
             return 0;
             break;
@@ -104,16 +109,16 @@ void menu(void *pBuffer)
     } while (*MENU(pBuffer) < 1 || *MENU(pBuffer) > 5);
 }
 
-void add(void **pBufferParametro)
+void adicionar(void **pBufferParametro)
 {
     void *pBuffer = *pBufferParametro;
-    void *bufferAux;
+    void *bufferAux = NULL;
 
-    printf("----------- Adicionar pessoa -----------\n");
+    printf("----------- Adicionar -----------\n");
     printf("Insira o nome: ");
-    scanf(" %49[^\n]s", TEMP_NOME(pBuffer));
+    scanf(" %49[^\n]", TEMP_NOME(pBuffer));
     printf("Insira o email: ");
-    scanf(" %49[^\n]s", TEMP_EMAIL(pBuffer));
+    scanf(" %49[^\n]", TEMP_EMAIL(pBuffer));
     printf("Insira a idade: ");
     scanf(" %d", TEMP_IDADE(pBuffer));
 
@@ -143,4 +148,147 @@ void add(void **pBufferParametro)
     *DADOS_USADOS(pBuffer) += TAM_IDADE;
 
     (*QTD_PESSOAS(pBuffer))++;
+}
+
+void remover(void **pBufferParametro)
+{
+    void *pBuffer = *pBufferParametro;
+    void *bufferAux = NULL;
+
+    if (*QTD_PESSOAS(pBuffer) == 0)
+    {
+        printf("A agenda está vazia\n");
+        return;
+    }
+
+    printf("----------- Remover -----------\n");
+    printf("Insira o nome da pessoa: ");
+    scanf(" %49[^\n]", TEMP_NOME(pBuffer));
+
+    char *pLeitura = (char *)pBuffer + INICIO_AREA_DADOS; // Ponteiro para percorrer a agenda
+    char *pRemover = NULL;                                // Ponteiro para a pessoa removida
+    char *pProx = NULL;                                   // Ponteiro para a próxima pessoa após a removida
+
+    for (*CONTADOR(pBuffer) = 0; *CONTADOR(pBuffer) < *QTD_PESSOAS(pBuffer); (*CONTADOR(pBuffer))++)
+    {
+        if (pRemover != NULL && pProx == NULL)
+        {
+            pProx = pLeitura;
+            break;
+        }
+        if (pRemover == NULL && strcmp(pLeitura, TEMP_NOME(pBuffer)) == 0)
+        {
+            pRemover = pLeitura;
+
+            char *pNome = pLeitura;
+            char *pEmail = pNome + strlen(pNome) + 1;
+
+            *TAM_PESSOA(pBuffer) = (strlen(pNome) + 1) + (strlen(pEmail) + 1) + TAM_IDADE;
+        }
+
+        proximaPessoa(&pLeitura);
+    }
+
+    if (pRemover == NULL)
+    {
+        printf("ERRO: %s nao encontrada\n", TEMP_NOME(pBuffer));
+        return;
+    }
+
+    if (pProx != NULL)
+    {
+        char *pFinal = (char *)pBuffer + *DADOS_USADOS(pBuffer);
+
+        memmove(pRemover, pProx, pFinal - pProx);
+    }
+
+    *DADOS_USADOS(pBuffer) -= *TAM_PESSOA(pBuffer);
+    (*QTD_PESSOAS(pBuffer))--;
+
+    bufferAux = realloc(pBuffer, *DADOS_USADOS(pBuffer));
+
+    if (bufferAux == NULL)
+    {
+        printf("Erro de realocação!!!\n");
+        exit(1);
+    }
+    else
+    {
+        pBuffer = bufferAux;
+    }
+
+    printf("SUCESSO: %s removida da agenda\n", TEMP_NOME(pBuffer));
+}
+
+void buscar(void *pBuffer)
+{
+    if (*QTD_PESSOAS(pBuffer) == 0)
+    {
+        printf("A agenda está vazia\n");
+        return;
+    }
+
+    printf("----------- Buscar -----------\n");
+    printf("Insira o nome da pessoa a ser buscada: ");
+    scanf(" %49[^\n]", TEMP_NOME(pBuffer));
+
+    char *pLeitura = (char *)pBuffer + INICIO_AREA_DADOS;
+    for (*CONTADOR(pBuffer) = 0; *CONTADOR(pBuffer) < *QTD_PESSOAS(pBuffer); (*CONTADOR(pBuffer))++)
+    {
+        if (strcmp(pLeitura, TEMP_NOME(pBuffer)) == 0)
+        {
+            char *pNome = pLeitura;
+            char *pEmail = pNome + strlen(pNome) + 1;
+            int *pIdade = (int *)(pEmail + strlen(pEmail) + 1);
+            printf("Pessoa encontrada:\n");
+            printf("Nome: %s\n", pNome);
+            printf("Email: %s\n", pEmail);
+            printf("Idade: %d\n\n", *pIdade);
+            return;
+        }
+        proximaPessoa(&pLeitura);
+    }
+
+    printf("ERRO: %s nao encontrado", TEMP_NOME(pBuffer));
+}
+
+void listar(void *pBuffer)
+{
+    if (*QTD_PESSOAS(pBuffer) == 0)
+    {
+        printf("A agenda está vazia\n");
+        return;
+    }
+
+    char *pLeitura = (char *)pBuffer + INICIO_AREA_DADOS;
+    char *pNome = NULL;
+    char *pEmail = NULL;
+    int *pIdade = NULL;
+
+    printf("----------- Listar -----------\n");
+    for (*CONTADOR(pBuffer) = 0; *CONTADOR(pBuffer) < *QTD_PESSOAS(pBuffer); (*CONTADOR(pBuffer))++)
+    {
+        pNome = pLeitura;
+        pEmail = pNome + strlen(pNome) + 1;
+        pIdade = (int *)(pEmail + strlen(pEmail) + 1);
+
+        printf("------ Pessoa %d ------\n", (*CONTADOR(pBuffer)) + 1);
+        printf("Nome: %s\n", pNome);
+        printf("Email: %s\n", pEmail);
+        printf("Idade: %d\n\n", *pIdade);
+
+        proximaPessoa(&pLeitura);
+    }
+}
+
+void proximaPessoa(char **pPessoaAtual)
+{
+    char *pPessoa = *pPessoaAtual;
+
+    pPessoa += strlen(pPessoa) + 1;
+    pPessoa += strlen(pPessoa) + 1;
+    pPessoa += TAM_IDADE;
+
+    // NOTA: TESTAR SE ISSO É REALMENTE NECESSÁRIO
+    *pPessoaAtual = pPessoa;
 }
