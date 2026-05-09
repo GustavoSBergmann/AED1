@@ -25,10 +25,10 @@
 #define TEMP_IDADE(pBuffer) ((int *)(TEMP_EMAIL(pBuffer) + TAM_EMAIL))
 
 // Tamanho do espaço para as variáveis temporárias
-#define TAM_AREA_TEMP (TAM_NOME + TAM_EMAIL + TAM_IDADE)
+#define AREA_TEMP (TAM_NOME + TAM_EMAIL + TAM_IDADE)
 
 // Começo da área de dados
-#define INICIO_AREA_DADOS (AREA_CONTROLE + TAM_AREA_TEMP)
+#define INICIO_AREA_DADOS (AREA_CONTROLE + AREA_TEMP)
 
 // Protótipos das funções
 void iniciaBuffer(void **pBufferParametro);
@@ -110,7 +110,7 @@ void menu(void *pBuffer)
 
 void adicionar(void **pBufferParametro)
 {
-    // Ponteiro para facilitar a manipulação da memória
+    // Ponteiro para facilitar a manipulação do pBuffer
     void *pBuffer = *pBufferParametro;
     // Buffer auxiliar para efetuar o realloc()
     void *bufferAux = NULL;
@@ -134,7 +134,7 @@ void adicionar(void **pBufferParametro)
     if (bufferAux == NULL)
     {
         printf("Erro de realocação!!!\n");
-        exit(1);
+        return;
     }
     else
     {
@@ -164,7 +164,7 @@ void adicionar(void **pBufferParametro)
 
 void remover(void **pBufferParametro)
 {
-    // Ponteiro para facilitar a manipulação da memória
+    // Ponteiro para facilitar a manipulação do pBuffer
     void *pBuffer = *pBufferParametro;
     // Buffer auxiliar para efetuar o realloc()
     void *bufferAux = NULL;
@@ -242,7 +242,6 @@ void remover(void **pBufferParametro)
     if (bufferAux == NULL)
     {
         printf("Erro de realocação!!!\n");
-        exit(1);
     }
     else
     {

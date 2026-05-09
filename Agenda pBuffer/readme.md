@@ -1,12 +1,6 @@
 # Agenda pBuffer
 ## Gustavo Schmitz Bergmann - Turma M1
 
-> [!IMPORTANT]
-> Código feito inteiramente em aula.
-
-> [!NOTE]
-> A única alteração no código feito em aula foram os comentários para melhor compreensão do mesmo, e no main, o qual não interfere no que foi testado no LeetCode.
-
 ### Descrição do Trabalho:
 Faça uma agenda com o seguinte menu:
 1. Adicionar Pessoa (Nome, Idade, email)
@@ -29,86 +23,21 @@ Regras:
 
 2. Não pode usar struct em todo o programa.
 
-
-![Demonstração de como a matriz deve ser percorrida](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Matriz.png)
-
-### Código feito em aula:
-```
-/**
- * Note: The returned array must be malloced, assume caller calls free().
- */
-
-int *findDiagonalOrder(int **mat, int matSize, int *matColSize, int *returnSize)
-{
-    int m = matSize;
-    int n = *matColSize;
-
-    int *order = (int *)malloc(m * n * sizeof(int));
-
-    int i = 0, j = 0, k = 0;
-
-    // Percorre o vetor order preenchendo-o
-    while (k < m * n)
-    {
-        // Sobe diagonalmente
-        while (i >= 0 && j < n)
-        {
-            order[k++] = mat[i][j];
-            i--;
-            j++;
-        }
-
-        // Se j passou do limite a direita e i do limite superior
-        if (j == n)
-        {
-            i += 2;
-            j = n - 1;
-        }
-        // Se apenas i passou do limite superior
-        else
-        {
-            i = 0;
-        }
-
-        // Se já passou do limite do vetor, então para de percorrer
-        if (k >= m * n)
-        {
-            break;
-        }
-
-        // Desce diagonalmente
-        while (i < m && j >= 0)
-        {
-            order[k++] = mat[i][j];
-            i++;
-            j--;
-        }
-
-        // Se i passou do limite inferior e j do limite a esquerda
-        if (i == m)
-        {
-            j += 2;
-            i = m - 1;
-        }
-        // Se apenas j passou do limite a esquerda
-        else
-        {
-            j = 0;
-        }
-    }
-
-    // Retorna o vetor e o seu tamanho
-    *returnSize = m * n;
-    return order;
-}
-```
-
-### Submit no LeetCode:
-![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Submit%20LeetCode.png)
-
 ### Explicação:
-De início, tive dificuldades para entender como percorrer a matriz diagonalmente. Depois de algum tempo tentando identificar um padrão e testando algumas formas de percurso, cheguei à conclusão de que o padrão para as subidas diagonais era `i--` e `j++`, enquanto o padrão para as descidas diagonais era `i++` e `j--`.
+No início do desenvolvimento, tive bastante dificuldade para compreender como realizar os acessos à memória dentro do `pBuffer`. Minha primeira abordagem foi definir MACROs com constantes para representar deslocamentos de memória, como no exemplo: `#define QTD_PESSOAS 1`.
 
-A partir desse ponto, demorei bastante até conseguir encontrar uma forma de tratar os casos em que `i` e `j` ultrapassavam os limites da matriz. Após muitos desenhos mentais de matrizes e movimentações de índices, consegui chegar aos condicionais que tratam esses casos, localizados entre `while (i >= 0 && j < n)` e `while (i < m && j >= 0)`, além do trecho posterior a este último.
+Assim, era possível acessar determinada região do buffer utilizando: `(int *)pBuffer + QTD_PESSOAS`.
 
-Todos os casos de teste funcionaram para o código.
+Com o tempo, percebi que a lógica utilizada era semelhante ao conceito de endereço base + deslocamento, estudado na disciplina de Arquitetura e Organização de Computadores. Entretanto, o modo como eu estava abordando isso deixava o código confuso, pouco legível e mais difícil de manter.
+
+Posteriormente, descobri a utilização de MACROs no formato de função, como: `#define QTD_PESSOAS(pBuffer) ((int *)pBuffer + 1)`. 
+
+Dessa forma, os acessos à memória passaram a ficar mais claros e organizados, permitindo utilizar expressões como: `*QTD_PESSOAS(pBuffer)`.
+
+Isso facilitou significativamente o desenvolvimento do programa. A partir dessa organização, consegui definir corretamente as regiões do buffer destinadas:
+
+- às variáveis de controle;
+- aos buffers temporários;
+- e ao armazenamento dos dados das pessoas cadastradas. 
+
+Após estruturar melhor o gerenciamento de memória, o restante do desenvolvimento se tornou mais claro. Apesar dos diversos erros envolvendo ponteiros durante a implementação, consegui concluir o trabalho com sucesso.
