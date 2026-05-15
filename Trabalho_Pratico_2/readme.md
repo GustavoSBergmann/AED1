@@ -12,8 +12,6 @@ Dado um array circular de inteiros `nums` (ou seja, o próximo elemento de `nums
 
 O próximo número maior de um número `x` é o primeiro número maior que o seu próximo na ordem de travessia do array, o que significa que você poderia percorrer o array circularmente para encontrar o próximo número maior. Se ele não existir, retorne -1 para esse número.
 
-![Demonstração de como a matriz deve ser percorrida](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Matriz.png)
-
 ### Código feito em aula:
 ```
 /**
@@ -69,7 +67,11 @@ int *nextGreaterElements(int *nums, int numsSize, int *returnSize)
 ```
 
 ### Submit no LeetCode:
-![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho%20Pratico%201/Submit%20LeetCode.png)
+![Teste do código no LeetCode](https://github.com/GustavoSBergmann/AED1/blob/master/Trabalho_Pratico_2/Submit_LeetCode.png)
 
 ### Explicação:
-Tive bastante dificuldade com relação a como percorrer o vetor circularmente, visto que, diferente das listas encadeadas, os vetores não tem `*next` para apontar para o próximo endereço. Depois de muitas tentativas e erros consegui chegar no cálculo do índice baseado no resto da divisão, o qual conclui que seria `int indice = i % numsSize`, fazendo com que, quando `i` passasse de `numsSize`, o indice voltasse a contar do zero, tornando vetor circular.
+Tive bastante dificuldade em relação a como percorrer o vetor circularmente, visto que, diferentemente das listas encadeadas, os vetores não possuem um ponteiro `*next` para apontar para o próximo endereço. Após muitas tentativas e erros, consegui chegar ao cálculo do índice baseado no resto da divisão, concluindo que a expressão `int indice = i % numsSize` faria com que, quando `i` ultrapassasse numsSize, o índice voltasse a contar do zero, tornando o vetor circular. A partir disso, concluí também que seria necessário percorrer o vetor duas vezes para que fosse possível avaliar todos os elementos posteriores a um elemento específico.
+
+Também tive algumas dificuldades em relação às condições necessárias para armazenar os valores em `*resp`, mas nada comparado à dificuldade de tornar o vetor circular.
+
+Todos os casos do LeetCode foram testados com sucesso.
