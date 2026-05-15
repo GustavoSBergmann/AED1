@@ -5,7 +5,7 @@
 int firstUniqChar(char *s)
 {
     int size = strlen(s);
-    char *map = calloc(26, sizeof(char));
+    int *map = calloc(26, sizeof(int));
 
     for (int i = 0; i < size; i++)
     {
