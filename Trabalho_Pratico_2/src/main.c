@@ -68,5 +68,7 @@ int main()
     }
     printf(" ]\n");
 
+    free(newNums);
+
     return 0;
 }
