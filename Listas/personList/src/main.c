@@ -167,6 +167,7 @@ bool push(List *pList, Node *pNode, unsigned int nIndex)
     pNode->pNext = pAtual;
     pAnterior->pNext = pNode;
     pList->qtdNodes++;
+
     return true;
 }
 
