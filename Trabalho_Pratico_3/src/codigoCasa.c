@@ -228,7 +228,9 @@ isIdealPermutation
 int contarMaiores(no_t *raiz, int valor)
 {
 	if (raiz == NULL)
+	{
 		return 0;
+	}
 
 	if (valor < raiz->valor)
 	{

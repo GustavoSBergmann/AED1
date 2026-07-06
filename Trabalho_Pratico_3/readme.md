@@ -9,13 +9,13 @@
 
 O número de inversões globais é a quantidade de pares distintos `(i, j)` tais que:
 
-`0 <= i < j < n`
-`nums[i] > nums[j]`
+- `0 <= i < j < n`
+- `nums[i] > nums[j]`
 
 O número de inversões locais é a quantidade de índices `i` tais que:
 
-`0 <= i < n - 1`
-`nums[i] > nums[i + 1]`
+- `0 <= i < n - 1`
+- `nums[i] > nums[i + 1]`
 
 Retorne `true` se o número de inversões globais for igual ao número de inversões locais.
 
@@ -69,11 +69,13 @@ bool isIdealPermutation(int *nums, int numsSize)
 int contarMaiores(no_t *raiz, int valor)
 {
 	if (raiz == NULL)
+	{
 		return 0;
+	}
 
 	if (valor < raiz->valor)
 	{
-		// raiz também é maior
+		// Raiz também é maior
 		return 1 +
 			   Tamanho(raiz->dir) +
 			   contarMaiores(raiz->esq, valor);
@@ -95,6 +97,8 @@ bool isIdealPermutation(int *nums, int numsSize)
 		raiz = Inserir_r(raiz, nums[i]);
 	}
 
+	// Igual ao da função ForçaBruta, pois já está otimizado
+	// Percorre apenas uma vez o vetor nums
 	for (int i = 0; i + 1 < numsSize; i++)
 	{
 		if (nums[i] > nums[i + 1])
